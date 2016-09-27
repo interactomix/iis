@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_mail import Mail
+from flask_user import UserManager, SQLAlchemyAdapter
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -12,6 +13,11 @@ migrate = Migrate(app, db)
 # Load Flask-Mail
 mail = Mail(app)
 
+# Configure user model for Flask-User
+from app.models import User
+
+db_adapter = SQLAlchemyAdapter(db, User)
+user_manager = UserManager(db_adapter, app)
 
 
 from app import views, models
