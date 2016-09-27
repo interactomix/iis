@@ -57,6 +57,13 @@ less to go wrong.
 There also exist a number of extensions for other databases.  CouchDB, FluidDB 
 and MongoDB (probably) among others are also supported.
 
+##### Migrations
+
+Flask-SQLAlchemy does not provide support for db migrations.  Migrations allow
+the state of the db to be recorded in source control for every revision.  This
+allows roling the database back to previous points, and upgrading a production
+database.  Flask-Migrate performs these functions.
+
 #### Others
 
 This will likely grow as times goes by.  Email functionality could be handled 
