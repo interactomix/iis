@@ -1,6 +1,6 @@
 from flask_user import UserMixin
 
-from app import app, db
+from app import db
 
 
 class User(db.Model, UserMixin):

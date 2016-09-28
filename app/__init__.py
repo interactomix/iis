@@ -19,10 +19,10 @@ mail = Mail(app)
 Bootstrap(app)
 
 # Configure user model for Flask-User
-from app.models import User
+from app.models import User  # noqa: E402
 
 db_adapter = SQLAlchemyAdapter(db, User)
 user_manager = UserManager(db_adapter, app)
 
 
-from app import views, models
+from app import views, models  # noqa: E402, F401
