@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.config.from_object('config')
 
 # Set up SQLAlchemy and Migrate
-db = SQLAlchemy(app)
+db = SQLAlchemy(app)  # type: SQLAlchemy
 migrate = Migrate(app, db)
 
 # Load Flask-Mail

@@ -1,9 +1,13 @@
+from typing import Any  # noqa: F401
+
 from flask_user import UserMixin
 
 from app import db
 
+Model = db.Model  # type: Any
 
-class User(db.Model, UserMixin):
+
+class User(Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
 
     username = db.Column(db.String(50), nullable=False, unique=True)
