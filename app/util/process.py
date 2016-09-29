@@ -42,7 +42,7 @@ class XMLProcess(AbstractProcess):
     def __init__(self: "XMLProcess", process: str,
                  tree: ElementTree) -> None:
         """Initilizes a process from an XML element."""
-        element = tree.find("[@id='" + process + "']")
+        element = tree.find(".//process[@id='" + process + "']")
         self._tree = tree
         self._id = element.attrib["id"]
         self.name = element.attrib["name"]
