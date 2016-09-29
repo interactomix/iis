@@ -5,8 +5,14 @@ from flask_mail import Mail
 from flask_user import UserManager, SQLAlchemyAdapter
 from flask_bootstrap import Bootstrap
 
-app = Flask(__name__)
-app.config.from_object('config')
+
+def create_app(config: object) -> Flask:
+    """Create the flask app. Can be called from testing contexts"""
+    app = Flask(__name__)
+    app.config.from_object('config')
+    return app
+
+app = create_app(None)
 
 # Set up SQLAlchemy and Migrate
 db = SQLAlchemy(app)  # type: SQLAlchemy
