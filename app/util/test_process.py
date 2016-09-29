@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 import flask_testing
 
 from app import create_app
-from app.util.process import XMLProcess
+from app.util.process import XMLProcess, DataType
 
 
 class TestXMLProcess(flask_testing.TestCase):
@@ -47,6 +47,20 @@ class TestXMLProcess(flask_testing.TestCase):
     def test_XMLProcess_instantiates_without_error(self):
         XMLProcess("mvorffip", self.process_graph)
 
+    def test_XMLProcess_has_expected_properties(self):
+        process = XMLProcess("mvorffip", self.process_graph)
+        self.assertEqual(process.name, "M-VORFFIP")
+        self.assertEqual(process.description.strip(),
+                         "M-VORFFIP calculates things probably...")
+        self.assertEqual(len(process.outputs), 1)
+        self.assertEqual(len(process.inputs), 1)
+        self.assertEqual(process.inputs[0][0], DataType.structure)
+        self.assertEqual(process.outputs[0][0], DataType.default)
+        self.assertEqual(process.inputs[0][1], 1)
+        self.assertEqual(process.inputs[0][2], 1)
+        self.assertEqual(process.outputs[0][1], 0)
+        self.assertEqual(process.outputs[0][2], -1)
+        self.assertEqual(len(process.post_set), 1)
 
 if __name__ == '__main__':
     unittest.main()

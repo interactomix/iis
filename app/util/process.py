@@ -49,7 +49,7 @@ class XMLProcess(AbstractProcess):
         self.description = element.find("description").text
 
         InOutputType = List[Tuple[DataType, int, int]]  # noqa: F841
-        outputs = element.findall("output")
+        outputs = element.findall(".//output")
         self.outputs = []  # type: InOutputType
         for output in outputs:
             try:
@@ -61,7 +61,7 @@ class XMLProcess(AbstractProcess):
             n_output_max = int(output.find("max").text)
             self.outputs.append((output_type, n_output_min, n_output_max))
 
-        inputs = element.findall("input")
+        inputs = element.findall(".//input")
         self.inputs = []  # type: InOutputType
         for in_put in inputs:
             try:
