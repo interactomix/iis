@@ -1,7 +1,0 @@
-# Modules only required during development
-mypy-lang>=0.4.4,<0.5.0
-
-
-
-# Also need all the normal reqs
--r main.txt
