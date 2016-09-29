@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 import flask_testing
 
 from app import create_app
-from app.util.process import XMLProcess, DataType
+from app.util.process import XMLProcess, DataType, ProcessNotFoundError
 
 
 class TestXMLProcess(flask_testing.TestCase):
@@ -61,6 +61,20 @@ class TestXMLProcess(flask_testing.TestCase):
         self.assertEqual(process.outputs[0][1], 0)
         self.assertEqual(process.outputs[0][2], -1)
         self.assertEqual(len(process.post_set), 1)
+
+    def test_returns_correct_post_set(self):
+        process = XMLProcess("mvorffip", self.process_graph)
+        self.assertEqual(len(process.list_next_nodes()), 1)
+        self.assertEqual(process.list_next_nodes()[0], "mvorffip")
+
+    def test_returns_correct_next_process(self):
+        process = XMLProcess("mvorffip", self.process_graph)
+        self.assertEqual(process._id, process.next_node("mvorffip")._id)
+
+    def test_raises_exception_when_accessing_invalid_next_node(self):
+        process = XMLProcess("mvorffip", self.process_graph)
+        with self.assertRaises(ProcessNotFoundError):
+            process.next_node("invalid")
 
 if __name__ == '__main__':
     unittest.main()
