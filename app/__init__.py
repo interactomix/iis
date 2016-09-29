@@ -9,7 +9,8 @@ from flask_bootstrap import Bootstrap
 def create_app(config: object) -> Flask:
     """Create the flask app. Can be called from testing contexts"""
     app = Flask(__name__)
-    app.config.from_object('config')
+    app.config.from_envvar('IIS_FLASK_SETTINGS')
+    app.config.from_object(config)
     return app
 
 app = create_app(None)
