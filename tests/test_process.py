@@ -3,8 +3,8 @@ import xml.etree.ElementTree as ET
 
 import flask_testing
 
-from app import create_app
-from app.util.process import XMLProcess, DataType, ProcessNotFoundError
+from iis import create_app
+from iis.util.process import XMLProcess, DataType, ProcessNotFoundError
 
 
 class TestXMLProcess(flask_testing.TestCase):

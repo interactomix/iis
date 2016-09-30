@@ -1,4 +1,4 @@
-from app import app
+from iis import app
 
 
 @app.route('/')

@@ -2,7 +2,7 @@ from typing import Any  # noqa: F401
 
 from flask_user import UserMixin
 
-from app import db
+from iis import db
 
 Model = db.Model  # type: Any
 
