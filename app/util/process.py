@@ -84,6 +84,11 @@ class XMLProcess(AbstractProcess):
             self.post_set.append(post_node)
 
     def next_node(self: "XMLProcess", ident: str) -> "AbstractProcess":
+        """Return the process in the postset with id == ident
+
+        Throw an ProcessNotFoundError if there is no process with
+        id == ident in the postset.
+        """
         found = False
         for node in self.post_set:
             if node["target"] == ident:
@@ -98,6 +103,7 @@ class XMLProcess(AbstractProcess):
         return XMLProcess(ident, self._tree)
 
     def list_next_nodes(self) -> List[str]:
+        """List the ids of all nodes in the postset"""
         ret = []
         for node in self.post_set:
             ret.append(node["target"])
