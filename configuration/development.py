@@ -1,7 +1,10 @@
-import os
-_basedir = os.path.abspath(os.path.dirname(__file__))
+import pathlib
 
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(_basedir, 'app.db')
+_basedir = pathlib.Path(__file__).parents[1]
+
+SQLALCHEMY_DATABASE_URI = (
+    'sqlite:///' + str(_basedir.joinpath(pathlib.PurePath('app.db')).resolve())
+)
 
 SECRET_KEY = 'INSECURE'
 
@@ -9,4 +12,4 @@ MAIL_SERVER = 'localhost'
 MAIL_PORT = '25'
 MAIL_DEFAULT_SENDER = 'no-reply@localhost.localdomain'
 
-del os
+del pathlib
