@@ -1,5 +1,5 @@
 import pathlib
-import logging
+
 
 _basedir = pathlib.Path(__file__).parents[1]
 
@@ -27,8 +27,8 @@ LOGGING = {
         "file": {
             "level": "DEBUG",
             "formatter": "verbose",
-            "class": "logging.FileHandler",
-            "filename": "iis.log"
+            "class": "iis.log.LockingFileHandler",
+            "filename": "/home/max/Projects/iis/iis.log"
         },
     },
     "loggers": {
@@ -39,7 +39,3 @@ LOGGING = {
     }
 }
 LOGGER_NAME = "iis"
-
-
-del pathlib
-del logging
