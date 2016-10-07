@@ -26,13 +26,23 @@ def daemonize(task: typing.Callable[..., None], pid_base: str) -> str:
 
     def task_wrapper():
         task(process_uuid)
+        app.logger.info("Worker process with UUID: " + process_uuid +
+                        " complete")
 
     def daemon_spawner():
         app.logger.info("Daemonizing worker process with UUID: "
                         + process_uuid)
+        handlers = app.logger.handlers
+        fhs = []
+        for handler in handlers:
+            try:
+                fhs.append(handler.stream.fileno())
+            except AttributeError:
+                app.logger.debug("Incompatible handler")
+
         daemon = d.Daemonize(
             app="iis_flask_worker-"+process_uuid, pid=pid,
-            action=task_wrapper
+            action=task_wrapper, keep_fds=fhs
         )
         daemon.start()
 
