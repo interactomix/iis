@@ -7,16 +7,21 @@ from flask_mail import Mail
 from flask_user import UserManager, SQLAlchemyAdapter
 from flask_bootstrap import Bootstrap
 
+import iis.jobs
+
 
 def create_app(config: object) -> Flask:
     """Create the flask app. Can be called from testing contexts"""
     app = Flask(__name__)
-    app.config.from_envvar('IIS_FLASK_SETTINGS')
+    app.config.from_envvar("IIS_FLASK_SETTINGS")
     app.config.from_object(config)
+
+    # Register blueprints
+    app.register_blueprint(iis.jobs.jobs, url_prefix="/jobs")
 
     # Call app.logger to prevent it from clobbering configuration
     app.logger
-    logging.config.dictConfig(app.config['LOGGING'])
+    logging.config.dictConfig(app.config["LOGGING"])
     app.logger.info("App configured.")
     return app
 
