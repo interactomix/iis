@@ -27,3 +27,21 @@ nav {
     }
   }
 }
+
+form.iis-search-form {
+  @extend .form-inline;
+}
+
+form > button{
+  @extend .btn;
+  @extend .btn-primary;
+} 
+
+section {
+  margin-top: 1em;
+}
+
+.iis-search-result {
+
+}
+
