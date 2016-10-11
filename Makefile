@@ -7,15 +7,21 @@ BOOTSTRAP_JS = ./components/bootstrap-sass-$(BOOTSTRAP_VER)/assets/javascripts/b
 
 INSTALLED = .installed
 
-run-dev : $(INSTALLED) $(CSS_MAIN) js
-	vex iis /bin/sh -c "IIS_FLASK_SETTINGS=../configuration/development.py \
-	  ./run.py"
+run-dev : $(INSTALLED) js $(CSS_MAIN)
+	vex iis /bin/sh -c \
+	  "IIS_FLASK_SETTINGS=../configuration/development.py \
+	  FLASK_DEBUG=1 \
+	  FLASK_APP=iis/__init__.py \
+	  flask run"
 
 js : iis/static/js/bootstrap.js
 
 iis/static/js/bootstrap.js : $(BOOTSTRAP_JS)
 	-mkdir -p ./iis/static/js
 	cp $(BOOTSTRAP_JS) iis/static/js/
+
+css-watch : $(CSS_MAIN)
+	sass --scss --watch -I $(BOOTSTRAP_SASS) $(SCSS_MAIN):$(CSS_MAIN)
 
 $(CSS_MAIN) : $(SCSS_MAIN) $(BOOTSTRAP_SASS)_bootstrap.scss \
 	      $(BOOTSTRAP_SASS)_bootstrap-sprockets.scss
