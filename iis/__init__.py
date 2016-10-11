@@ -1,13 +1,9 @@
 import logging.config
 
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 from flask_mail import Mail
 from flask_user import UserManager, SQLAlchemyAdapter
-from flask_bootstrap import Bootstrap
-
-import iis.jobs
+from flask_migrate import Migrate
 
 
 def create_app(config: object) -> Flask:
@@ -17,7 +13,17 @@ def create_app(config: object) -> Flask:
     app.config.from_object(config)
 
     # Register blueprints
-    app.register_blueprint(iis.jobs.jobs, url_prefix="/jobs")
+    from iis.jobs import jobs
+    app.register_blueprint(jobs, url_prefix="/jobs")
+
+    # Init db
+    from .database import db
+    db.init_app(app)
+
+    from .models import User
+    db_adapter = SQLAlchemyAdapter(db, User)
+    UserManager(db_adapter, app)
+    Migrate(app, db)
 
     # Call app.logger to prevent it from clobbering configuration
     app.logger
@@ -27,22 +33,7 @@ def create_app(config: object) -> Flask:
 
 app = create_app(None)
 
-# Set up SQLAlchemy and Migrate
-db = SQLAlchemy(app)  # type: SQLAlchemy
-migrate = Migrate(app, db)
-
 # Load Flask-Mail
 mail = Mail(app)
 
-# Set up bootstrap
-Bootstrap(app)
-
-# Configure user model for Flask-User
-from iis.models import User  # noqa: E402
-
-db_adapter = SQLAlchemyAdapter(db, User)
-user_manager = UserManager(db_adapter, app)
-
-
-
-from iis import views, models  # noqa: E402, F401
+from iis import views  # noqa: E402, F401
