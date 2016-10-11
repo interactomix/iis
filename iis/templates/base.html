@@ -29,10 +29,10 @@
     {% endif %}
     {% endwith %}
     {% block navbar %}
-    <nav class="navbar navbar-default">
-      <div class="container-fluid container">
+    <nav>
+      <div class="container-fluid">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" 
+          <button type="button" class="collapsed" 
                   data-toggle="collapse" data-target="#iis-main-navbar" 
                   aria-expanded="false">
             <span class="sr-only">Toggle navigation</span>
@@ -42,11 +42,11 @@
           </button>
           <a class="navbar-brand" href="/">IIS</a>
         </div>
-        <div class="collapse navbar-collapse" id="iis-main-navbar">
-          <ul class="nav navbar-nav">
+        <div class="navbar-main collapse" id="iis-main-navbar">
+          <ul>
             <li><a href="/jobs/">Jobs</a></li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
+          <ul class="navbar-aside">
             {% if current_user.is_authenticated %}
             <li>
               <a href="{{ url_for('user.profile')}}">Hello, {{ current_user.username }}</a>
@@ -65,10 +65,10 @@
     </nav>
     {% endblock %}
 
-    <div class="container">
+    <main>
     {% block content %}
     {% endblock content %}
-    </div>
+    </main>
     {% block scripts %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.js')}}"></script>

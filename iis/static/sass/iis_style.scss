@@ -1,6 +1,29 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-.container {
+
+main, nav > .container-fluid {
   max-width: 1200px;
+  margin: auto;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+nav {
+  @extend .navbar;
+  @extend .navbar-default;
+  .navbar-header > button {
+    @extend .navbar-toggle;
+  }
+  
+  .navbar-main {
+    @extend .navbar-collapse;
+    ul {
+      @extend .nav;
+      @extend .navbar-nav; 
+    }
+    ul.navbar-aside {
+      @extend .navbar-right; 
+    }
+  }
 }
