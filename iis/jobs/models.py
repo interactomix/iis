@@ -17,4 +17,4 @@ class PipelineDefinition(Model):
         'User', backref=db.backref('pipeline_definitions', lazy='dynamic')
     )
     public = db.Column(db.Boolean)
-    db.UniqueConstraint('user_id', 'name')
+    __table_args__ = (db.UniqueConstraint('user_id', 'name'),)
