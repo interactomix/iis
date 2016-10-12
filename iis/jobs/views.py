@@ -16,7 +16,7 @@ def create():
 
 
 @jobs.route("/", methods=["GET"])
-def search_definitions():
+def search():
     form = forms.SearchForm()
     if current_user.is_anonymous:
         if form.validate_on_submit():
@@ -49,15 +49,14 @@ def search_definitions():
 @flask_user.login_required
 def upload():
     form = forms.UploadForm()
-    if form.validate_on_submit():
-        definition = models.PipelineDefinition(
-            name=form.name,
-            description=form.description,
-            definition=form.file.data.read(),
-            user_id=current_user.id,
-            public=form.publish,
-        )
+    if flask.request.method == "POST" and form.validate_on_submit():
+        definition = models.PipelineDefinition()
+        form.populate_obj(definition)
+        definition.user = current_user
+
         db.session.add(definition)
         db.session.commit()
+
+        return flask.redirect(flask.url_for('jobs.search'))
 
     return flask.render_template("jobs/upload.html", form=form)

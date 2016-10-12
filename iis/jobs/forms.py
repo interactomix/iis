@@ -1,5 +1,15 @@
+import json
+
 import flask_wtf
 import wtforms.fields
+from wtforms import validators
+
+
+def is_json(form, field):
+    try:
+        json.loads(field.data)
+    except ValueError:
+        raise validators.ValidationError('The file must contain valid JSON.')
 
 
 class SearchForm(flask_wtf.Form):
@@ -9,5 +19,6 @@ class SearchForm(flask_wtf.Form):
 class UploadForm(flask_wtf.Form):
     name = wtforms.fields.StringField()
     description = wtforms.fields.TextAreaField()
-    publish = wtforms.fields.BooleanField()
-    definition = wtforms.fields.FileField()
+    public = wtforms.fields.BooleanField()
+    definition = wtforms.fields.TextAreaField(
+        "Pipeline Definition", [is_json])
