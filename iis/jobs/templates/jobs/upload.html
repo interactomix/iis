@@ -8,21 +8,21 @@
     {{ form.name.label(class_="control-label") }}
     {{ form.name(class_="form-control") }}
     {% for error in form.name.errors %}
-    <span class="errors help-block">{{ error }}</span>
+    <span class="help-block">{{ error }}</span>
     {% endfor %}
   </div>
   <div class="form-group {% if form.description.errors %}has-error{% endif %}">
     {{ form.description.label(class_="control-label") }}
     {{ form.description(class_="form-control") }}
     {% for error in form.description.errors %}
-    <span class="errors help-block">{{ error }}</span>
+    <span class="help-block">{{ error }}</span>
     {% endfor %}
   </div>
   <div class="form-group {% if form.public.errors %}has-error{% endif %}">
     {{ form.public.label(class_="control-label") }}
     {{ form.public }}
     {% for error in form.public.errors %}
-    <span class="errors help-block">{{ error }}</span>
+    <span class="help-block">{{ error }}</span>
     {% endfor %}
   </div>
   <div class="form-group {% if form.definition.errors %}has-error{% endif %}">

@@ -3,17 +3,15 @@
 {% block title %}Search existing pipeline definitions{% endblock title %} 
 
 {% block content %}
-<form class="iis-search-form" method="GET" action="#">
-  {% for field in form %}
-  {% if field == form.csrf_token %}
-  {{ field }}
-  {% else %}
+<form class="form-inline" method="GET" action="#">
   <div class="form-group">
-    {{ field.label }}
-    {{ field }}
+    {{ form.search_term.label }}
+    {{ form.search_term }}
+    {% for error in form.search_term.errors %}
+    <span class="help-block">{{ error }}</span>
+    {% endfor %}
   </div>
-  {% endif %}
-  {% endfor %}
+  {{ form.csrf_token }}
   <button type="submit">Search</button>
 </form>
 

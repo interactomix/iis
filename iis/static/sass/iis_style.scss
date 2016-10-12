@@ -28,10 +28,6 @@ nav {
   }
 }
 
-form.iis-search-form {
-  @extend .form-inline;
-}
-
 form > button{
   @extend .btn;
   @extend .btn-primary;
@@ -40,14 +36,3 @@ form > button{
 section {
   margin-top: 1em;
 }
-
-form:not(.iis-search-form) {
-  input[type=text] {
-    @extend .form-control; 
-  }
-  textarea{
-    @extend .form-control;
-  }
-}
-
-
