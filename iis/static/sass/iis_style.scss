@@ -41,7 +41,13 @@ section {
   margin-top: 1em;
 }
 
-.iis-search-result {
-
+form:not(.iis-search-form) {
+  input[type=text] {
+    @extend .form-control; 
+  }
+  textarea{
+    @extend .form-control;
+  }
 }
+
 

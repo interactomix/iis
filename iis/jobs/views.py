@@ -1,9 +1,10 @@
 import flask
 import flask_user
-import flask_login
+from flask_login import current_user
 
-from . import jobs, models, forms
+from iis.database import db
 import iis.forms
+from . import jobs, models, forms
 
 
 @jobs.route("/create", methods=["GET", "POST"])
@@ -16,16 +17,47 @@ def create():
 
 @jobs.route("/", methods=["GET"])
 def search_definitions():
-    form = forms.PipelineDefinitionSearchForm()
-    if form.validate_on_submit():
-        defs = models.Definition.query.filter(
-            models.PipelineDefinition.user_id == flask_login.current_user.id,
-            models.PipelineDefinition.title.like("%" + form.search_term + "%")
-        )
+    form = forms.SearchForm()
+    if current_user.is_anonymous:
+        if form.validate_on_submit():
+            defs = models.Definition.query.filter(
+                models.PipelineDefinition.title.like(
+                    "%" + form.search_term + "%"
+                )
+            )
+        else:
+            defs = models.PipelineDefinition.query.limit(10)
+
     else:
-        defs = models.PipelineDefinition.query.filter(
-            models.PipelineDefinition.user_id == flask_login.current_user.id
-        )
+        if form.validate_on_submit():
+            defs = models.Definition.query.filter(
+                models.PipelineDefinition.user_id == current_user.id,
+                models.PipelineDefinition.title.like(
+                    "%" + form.search_term + "%"
+                )
+            )
+        else:
+            defs = models.PipelineDefinition.query.filter(
+                models.PipelineDefinition.user_id == current_user.id
+            )
 
     print(defs)
     return flask.render_template("jobs/search.html", form=form, defs=defs)
+
+
+@jobs.route("/upload", methods=["GET", "POST"])
+@flask_user.login_required
+def upload():
+    form = forms.UploadForm()
+    if form.validate_on_submit():
+        definition = models.PipelineDefinition(
+            name=form.name,
+            description=form.description,
+            definition=form.file.data.read(),
+            user_id=current_user.id,
+            public=form.publish,
+        )
+        db.session.add(definition)
+        db.session.commit()
+
+    return flask.render_template("jobs/upload.html", form=form)
