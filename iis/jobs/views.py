@@ -1,6 +1,7 @@
 import flask
 import flask_user
 from flask_login import current_user
+from sqlalchemy.exc import IntegrityError
 
 from iis.database import db
 import iis.forms
@@ -48,15 +49,19 @@ def search():
 @jobs.route("/upload", methods=["GET", "POST"])
 @flask_user.login_required
 def upload():
-    form = forms.UploadForm()
+    form = forms.CreateForm()
     if flask.request.method == "POST" and form.validate_on_submit():
         definition = models.PipelineDefinition()
         form.populate_obj(definition)
         definition.user = current_user
 
         db.session.add(definition)
-        db.session.commit()
-
-        return flask.redirect(flask.url_for('jobs.search'))
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            raise
+        else:
+            return flask.redirect(flask.url_for('jobs.search'))
 
     return flask.render_template("jobs/upload.html", form=form)
