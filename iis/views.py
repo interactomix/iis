@@ -1,6 +1,8 @@
+import flask
+
 from iis import app
 
 
 @app.route('/')
 def index():
-    return "Hello, World!"
+    return flask.render_template('index.html')

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Search existing pipeline definitions{% endblock title %} 
+
+{% block content %}
+<form class="form-inline" method="GET" action="#">
+  <div class="form-group">
+    {{ form.search_term.label }}
+    {{ form.search_term }}
+    {% for error in form.search_term.errors %}
+    <span class="help-block">{{ error }}</span>
+    {% endfor %}
+  </div>
+  {{ form.csrf_token }}
+  <button type="submit">Search</button>
+</form>
+
+<section class="iis-search-result">
+  {% if defs.count() > 0 %}
+  {% for def in defs %}
+  <div class="iis-definition">
+    {{ def.name }} -- {{ def.description }}
+  </div>
+  {% endfor %}
+  {% else %}
+  <p class="iis-empty-result">
+  No pipeline definitions matching your search term were found.
+  </p>
+  {% endif %}
+</section>
+{% endblock content %}

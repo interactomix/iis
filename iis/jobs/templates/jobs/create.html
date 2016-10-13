@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Create a Pipeline Definition{% endblock %}
+
+{% block content %}
+<form method="POST" action="#">
+  {% for field in form %}
+  {% if not field == form.csrf_token %}
+  <div class="form-group">
+    {{ field.label }} 
+    {{ field }}
+  </div>
+  {% endif %}
+  {% endfor %}
+</form>
+{% endblock %}
