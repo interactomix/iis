@@ -31,7 +31,10 @@ class CreateForm(flask_wtf.Form):
         if not valid:
             return valid
 
-        if models.PipelineDefinition.query.filter_by(name=self.name.data,
-                                                     user=current_user):
+        definition = models.PipelineDefinition.query.filter(
+            models.PipelineDefinition.name == self.name.data,
+            models.PipelineDefinition.user_id == current_user.get_id()
+        ).first()
+        if definition:
             self.name.errors.append("The name must be unique.")
             return False

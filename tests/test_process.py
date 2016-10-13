@@ -1,15 +1,11 @@
 import unittest
 import xml.etree.ElementTree as ET
 
-from iis import create_app
 from iis.util.process import XMLProcess, DataType, ProcessNotFoundError
 from .base import BaseTestCase
 
 
 class TestXMLProcess(BaseTestCase):
-    def create_app(self):
-        return create_app(self)
-
     def setUp(self):
         xml_process_description = """
         <processes>

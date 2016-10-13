@@ -22,16 +22,16 @@ def create_app(config: object) -> Flask:
 
     from .models import User
     db_adapter = SQLAlchemyAdapter(db, User)
-    UserManager(db_adapter, app)
+    user_manager = UserManager(db_adapter, app)  # noqa: F841
     Migrate(app, db)
 
     # Call app.logger to prevent it from clobbering configuration
     app.logger
     logging.config.dictConfig(app.config["LOGGING"])
     app.logger.info("App configured.")
-    return app
+    return (app, user_manager)
 
-app = create_app(None)
+app = create_app(None)[0]
 
 # Load Flask-Mail
 mail = Mail(app)
