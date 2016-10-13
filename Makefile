@@ -17,6 +17,11 @@ run-dev : $(INSTALLED) js $(CSS_MAIN)
 	  $(FLASK_APP) \
 	  flask run"
 
+test : $(INSTALLED)
+	vex iis /bin/sh -c \
+	  "$(IIS_FLASK_SETTINGS) \
+	  python -m unittest"
+
 js : iis/static/js/bootstrap.js
 
 iis/static/js/bootstrap.js : $(BOOTSTRAP_JS)
