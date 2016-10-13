@@ -1,7 +1,8 @@
-import unittest
+from flask import url_for
 
-import flask_testing
+from .base import BaseTestCase
 
 
-class TestJobCreateView(flask_testing.TestCase):
-    pass
+class TestJobCreateView(BaseTestCase):
+    def test_login_required(self):
+        self.assertLoginRequired(url_for('jobs.create'))
