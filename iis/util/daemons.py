@@ -25,9 +25,14 @@ def daemonize(task: typing.Callable[..., None], pid_base: str) -> str:
                        ".pid")
 
     def task_wrapper():
-        task(process_uuid)
-        app.logger.info("Worker process with UUID: " + process_uuid +
-                        " complete")
+        try:
+            task(process_uuid)
+        except Exception as e:
+            app.logger.exception("Worker process with UUID: " + process_uuid +
+                                 " exited with an exception!")
+        else:
+            app.logger.info("Worker process with UUID: " + process_uuid +
+                            " complete")
 
     def daemon_spawner():
         app.logger.info("Daemonizing worker process with UUID: "

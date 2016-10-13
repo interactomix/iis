@@ -1,13 +1,12 @@
 import unittest
 import xml.etree.ElementTree as ET
 
-import flask_testing
-
 from iis import create_app
 from iis.util.process import XMLProcess, DataType, ProcessNotFoundError
+from .base import BaseTestCase
 
 
-class TestXMLProcess(flask_testing.TestCase):
+class TestXMLProcess(BaseTestCase):
     def create_app(self):
         return create_app(self)
 
