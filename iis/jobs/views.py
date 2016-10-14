@@ -2,6 +2,7 @@ import flask
 import flask_user
 from flask_login import current_user
 from sqlalchemy.exc import IntegrityError
+from iis.csrf import csrf
 
 from iis.database import db
 import iis.forms
@@ -16,6 +17,7 @@ def create():
         return flask.render_template("jobs/create.html", form=form)
 
 
+@csrf.exempt
 @jobs.route("/", methods=["GET"])
 def search():
     form = forms.SearchForm()
@@ -42,7 +44,6 @@ def search():
                 models.PipelineDefinition.user_id == current_user.id
             )
 
-    print(defs)
     return flask.render_template("jobs/search.html", form=form, defs=defs)
 
 

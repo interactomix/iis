@@ -25,6 +25,9 @@ def create_app(config: object) -> Flask:
     user_manager = UserManager(db_adapter, app)  # noqa: F841
     Migrate(app, db)
 
+    from .csrf import csrf
+    csrf.init_app(app)
+
     # Call app.logger to prevent it from clobbering configuration
     app.logger
     logging.config.dictConfig(app.config["LOGGING"])
