@@ -39,11 +39,13 @@ class BaseTestCase(flask_testing.TestCase):
         db.drop_all()
 
     def login(self, username=None, password=None):
+        username = username or "admin"
+        password = password or "passW1"
         self.client.post(url_for('user.login'), data=dict(
-            username=username or "admin",
-            password=password or "passW1"
+            username=username,
+            password=password
         ), follow_redirects=False)
-        # self.assertEqual(current_user.username, "admin")
+        return User.query.filter_by(username=username).one()
 
     def logout(self):
         self.client.get(url_for("user.logout"))

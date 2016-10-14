@@ -49,8 +49,9 @@ def search():
 @jobs.route("/upload", methods=["GET", "POST"])
 @flask_user.login_required
 def upload():
-    form = forms.CreateForm()
-    if flask.request.method == "POST" and form.validate_on_submit():
+    form = forms.CreateForm(flask.request.form)
+    form.user_id.data = current_user.get_id()
+    if flask.request.method == "POST" and form.validate():
         definition = models.PipelineDefinition()
         form.populate_obj(definition)
         definition.user = current_user
