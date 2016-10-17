@@ -22,6 +22,10 @@ test : $(INSTALLED)
 	  "$(IIS_FLASK_SETTINGS) \
 	  python -m unittest"
 
+mypy : $(INSTALLED)
+	-vex iis /bin/sh -c \
+	  "mypy -s -p iis"
+
 js : iis/static/js/bootstrap.js
 
 iis/static/js/bootstrap.js : $(BOOTSTRAP_JS)
