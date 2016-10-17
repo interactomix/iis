@@ -26,13 +26,7 @@ class BaseTestCase(flask_testing.TestCase):
 
     def setUp(self):
         db.create_all()
-        admin = User(username="admin",
-                     password=self.user_manager.hash_password("passW1"),
-                     email="admin@localhost",
-                     confirmed_at=datetime.fromtimestamp(0.0),
-                     active=True)
-        db.session.add(admin)
-        db.session.commit()
+        self.create_user("admin", "passW1")
 
     def tearDown(self):
         db.session.remove()
@@ -49,6 +43,16 @@ class BaseTestCase(flask_testing.TestCase):
 
     def logout(self):
         self.client.get(url_for("user.logout"))
+
+    def create_user(self, username, password):
+        user = User(username=username,
+                    password=self.user_manager.hash_password(password),
+                    email=username + "@localhost",
+                    confirmed_at=datetime.fromtimestamp(0.0),
+                    active=True)
+        db.session.add(user)
+        db.session.commit()
+        return user
 
     def assertLoginRequired(self, url):
         self.logout()
