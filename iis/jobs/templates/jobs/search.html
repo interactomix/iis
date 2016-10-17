@@ -17,8 +17,14 @@
 <section class="iis-search-result">
   {% if defs.count() > 0 %}
   {% for def in defs %}
-  <div class="iis-definition">
-    {{ def.name }} -- {{ def.description }}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <span class="name">{{ def.name }}</span>
+    </div>
+    <div class="panel-body">
+      <span class="description">{{ def.description }}</span>
+      <span class="author">{{ def.user.username }}</span>
+    </div>
   </div>
   {% endfor %}
   {% else %}

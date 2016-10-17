@@ -36,3 +36,17 @@ form > button{
 section {
   margin-top: 1em;
 }
+
+.iis-search-result {
+  .author:before {
+    content: "-- ";
+    font-weight: bold;
+  }
+  .author {
+    font-weight: bold;
+  }
+  .description {
+    display: block; 
+    margin-bottom: 5px;
+  }
+}
