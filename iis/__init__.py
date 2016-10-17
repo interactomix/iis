@@ -17,19 +17,16 @@ def create_app(config: object) -> Flask:
     app.register_blueprint(jobs, url_prefix="/jobs")
 
     # Init db
-    from .database import db
+    from .extensions import db
     db.init_app(app)
-    app.config["jobs.db"] = db
 
     from .models import User
     db_adapter = SQLAlchemyAdapter(db, User)
     user_manager = UserManager(db_adapter, app)  # noqa: F841
     Migrate(app, db)
 
-    from .csrf import csrf
+    from .extensions import csrf
     csrf.init_app(app)
-
-    app.config["jobs.csrf"] = csrf
 
     # Call app.logger to prevent it from clobbering configuration
     app.logger

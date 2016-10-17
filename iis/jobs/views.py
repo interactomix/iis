@@ -4,10 +4,7 @@ from flask_login import current_user
 from sqlalchemy.exc import IntegrityError
 
 from . import jobs, models, forms
-
-
-db = flask.current_user.config["jobs.db"]
-csrf = flask.current_app.config["jobs.csrf"]
+from ..extensions import csrf, db
 
 
 @csrf.exempt

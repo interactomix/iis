@@ -2,12 +2,12 @@ from flask import url_for
 
 from .base import BaseTestCase
 from iis.jobs.models import PipelineDefinition
-from iis.database import db
+from iis.extensions import db
 
 
 class TestJobUploadView(BaseTestCase):
     def test_login_required(self):
-        self.assertLoginRequired(url_for("jobs.create"))
+        self.assertLoginRequired(url_for("jobs.upload"))
 
     def test_post_from_valid(self):
         self.login()

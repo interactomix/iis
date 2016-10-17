@@ -3,11 +3,10 @@ from datetime import datetime
 
 import flask_testing
 from flask import url_for
-from flask_login import current_user
 
 import iis
 from iis.models import User
-from iis.database import db
+from iis.extensions import db
 
 
 class BaseTestCase(flask_testing.TestCase):

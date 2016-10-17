@@ -1,6 +1,6 @@
 from .base import BaseTestCase
 from iis.jobs.forms import CreateForm
-from iis.database import db
+from iis.extensions import db
 from iis.jobs.models import PipelineDefinition
 
 
