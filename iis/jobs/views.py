@@ -2,19 +2,12 @@ import flask
 import flask_user
 from flask_login import current_user
 from sqlalchemy.exc import IntegrityError
-from iis.csrf import csrf
 
-from iis.database import db
-import iis.forms
 from . import jobs, models, forms
 
 
-@jobs.route("/create", methods=["GET", "POST"])
-@flask_user.login_required
-def create():
-    if flask.request.method == "GET":
-        form = iis.forms.process_selection_form()()
-        return flask.render_template("jobs/create.html", form=form)
+db = flask.current_user.config["jobs.db"]
+csrf = flask.current_app.config["jobs.csrf"]
 
 
 @csrf.exempt

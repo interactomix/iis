@@ -19,6 +19,7 @@ def create_app(config: object) -> Flask:
     # Init db
     from .database import db
     db.init_app(app)
+    app.config["jobs.db"] = db
 
     from .models import User
     db_adapter = SQLAlchemyAdapter(db, User)
@@ -27,6 +28,8 @@ def create_app(config: object) -> Flask:
 
     from .csrf import csrf
     csrf.init_app(app)
+
+    app.config["jobs.csrf"] = csrf
 
     # Call app.logger to prevent it from clobbering configuration
     app.logger

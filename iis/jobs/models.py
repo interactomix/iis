@@ -1,7 +1,8 @@
 from typing import Any  # noqa: F401
 
-from iis.database import db
+import flask.current_app
 
+db = flask.current_app.config["jobs.db"]
 Model = db.Model  # type: Any
 
 
