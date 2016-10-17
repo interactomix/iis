@@ -2,6 +2,7 @@ from flask import url_for
 
 from .base import BaseTestCase
 from iis.jobs.models import PipelineDefinition
+from iis.database import db
 
 
 class TestJobUploadView(BaseTestCase):
@@ -43,3 +44,44 @@ class TestJobUploadView(BaseTestCase):
         ))
         self.assertTrue(
             PipelineDefinition.query.filter_by(name="TestPDF").one())
+
+
+class TestJobsSearchView(BaseTestCase):
+
+    def test_empty_search_finds_all(self):
+        for i in range(1, 10):
+            d = PipelineDefinition()
+            d.name = "TestPDF" + str(i)
+            d.public = True
+            d.definition = '{"test_key": "test content"}'
+            d.description = ""
+            db.session.add(d)
+
+        db.session.commit()
+        r = self.client.get(url_for("jobs.search"))
+        self.assertEqual(9, str(r.get_data()).count("TestPDF"))
+
+    def test_search_finds_all_matching(self):
+        for i in range(1, 10):
+            d = PipelineDefinition()
+            d.name = "TestPDF" + str(i)
+            d.public = True
+            d.definition = '{"test_key": "test content"}'
+            d.description = ""
+            db.session.add(d)
+
+        for i in range(1, 10):
+            d = PipelineDefinition()
+            d.name = "TestPDFMatch" + str(i)
+            d.public = True
+            d.definition = '{"test_key": "test content"}'
+            d.description = ""
+            db.session.add(d)
+
+        db.session.commit()
+
+        r = self.client.get(url_for("jobs.search"), query_string=dict(
+            search_term="TestPDFMatch"
+        ))
+        print(r.get_data())
+        self.assertEqual(10, str(r.get_data()).count("TestPDF"))

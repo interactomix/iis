@@ -20,29 +20,15 @@ def create():
 @csrf.exempt
 @jobs.route("/", methods=["GET"])
 def search():
-    form = forms.SearchForm()
-    if current_user.is_anonymous:
-        if form.validate_on_submit():
-            defs = models.Definition.query.filter(
-                models.PipelineDefinition.title.like(
-                    "%" + form.search_term + "%"
-                )
+    form = forms.SearchForm(flask.request.args, csrf_enabled=False)
+    if form.validate():
+        defs = models.PipelineDefinition.query.filter(
+            models.PipelineDefinition.name.like(
+                "%" + form.search_term.data + "%"
             )
-        else:
-            defs = models.PipelineDefinition.query.limit(10)
-
+        )
     else:
-        if form.validate_on_submit():
-            defs = models.Definition.query.filter(
-                models.PipelineDefinition.user_id == current_user.id,
-                models.PipelineDefinition.title.like(
-                    "%" + form.search_term + "%"
-                )
-            )
-        else:
-            defs = models.PipelineDefinition.query.filter(
-                models.PipelineDefinition.user_id == current_user.id
-            )
+        defs = models.PipelineDefinition.query.limit(10)
 
     return flask.render_template("jobs/search.html", form=form, defs=defs)
 
