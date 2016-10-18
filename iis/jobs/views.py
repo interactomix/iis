@@ -43,3 +43,12 @@ def upload():
             return flask.redirect(flask.url_for('jobs.search'))
 
     return flask.render_template("jobs/upload.html", form=form)
+
+
+@jobs.route("/<int:job_id>")
+def detail(job_id):
+    job = models.PipelineDefinition.query.get(job_id)
+    if job is None:
+        return flask.abort(404)
+
+    return flask.render_template("jobs/detail.html")
