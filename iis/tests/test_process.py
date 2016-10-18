@@ -2,7 +2,7 @@ import unittest
 import xml.etree.ElementTree as ET
 
 from iis.util.process import XMLProcess, DataType, ProcessNotFoundError
-from .base import BaseTestCase
+from test_utils.base import BaseTestCase
 
 
 class TestXMLProcess(BaseTestCase):

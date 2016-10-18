@@ -1,4 +1,4 @@
-from .base import BaseTestCase
+from test_utils.base import BaseTestCase
 from iis.jobs.forms import JobForm
 from iis.extensions import db
 from iis.jobs.models import PipelineDefinition

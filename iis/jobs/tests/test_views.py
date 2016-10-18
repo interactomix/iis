@@ -1,6 +1,6 @@
 from flask import url_for
 
-from .base import BaseTestCase
+from test_utils.base import BaseTestCase
 from iis.jobs.models import PipelineDefinition
 from iis.extensions import db
 

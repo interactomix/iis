@@ -1,7 +1,7 @@
 import time
 
 from iis.extensions import db
-from .base import BaseTestCase
+from test_utils.base import BaseTestCase
 from iis.util.daemons import daemonize
 import iis.models
 
