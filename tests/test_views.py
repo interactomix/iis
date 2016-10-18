@@ -83,5 +83,65 @@ class TestJobsSearchView(BaseTestCase):
         r = self.client.get(url_for("jobs.search"), query_string=dict(
             search_term="TestPDFMatch"
         ))
-        print(r.get_data())
         self.assertEqual(10, str(r.get_data()).count("TestPDF"))
+
+
+class TestJobsDetailView(BaseTestCase):
+    def test_appears_disabled_for_wrong_user(self):
+        user = self.login()
+
+        d = PipelineDefinition()
+        d.name = "TestPDF"
+        d.public = True
+        d.definition = '{"test_key": "test content"}'
+        d.description = ""
+        d.user = user
+        db.session.add(d)
+        db.session.commit()
+
+        self.logout()
+
+        r = self.client.get(url_for("jobs.detail", job_id=d.id))
+        self.assertEqual(4, str(r.get_data()).count("disabled"))
+
+    def test_rejects_post_for_wrong_user(self):
+        user = self.login()
+
+        d = PipelineDefinition()
+        d.name = "TestPDF"
+        d.public = True
+        d.definition = '{"test_key": "test content"}'
+        d.description = ""
+        d.user = user
+        db.session.add(d)
+        db.session.commit()
+
+        self.logout()
+
+        self.client.post(url_for("jobs.detail", job_id=d.id), data=dict(
+            name="Test",
+            public=True,
+            definition='{"test_key": "test content"}',
+            description=""
+        ))
+        self.assertEqual("TestPDF", PipelineDefinition.query.get(d.id).name)
+
+    def test_allows_edit_for_correct_user(self):
+        user = self.login()
+
+        d = PipelineDefinition()
+        d.name = "TestPDF"
+        d.public = True
+        d.definition = '{"test_key": "test content"}'
+        d.description = ""
+        d.user = user
+        db.session.add(d)
+        db.session.commit()
+
+        self.client.post(url_for("jobs.detail", job_id=d.id), data=dict(
+            name="Test",
+            public=True,
+            definition='{"test_key": "test content"}',
+            description=""
+        ))
+        self.assertEqual("Test", PipelineDefinition.query.get(d.id).name)

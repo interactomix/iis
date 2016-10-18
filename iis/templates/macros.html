@@ -1,0 +1,15 @@
+{% macro with_errors(field, disabled=False, classes="") %}
+<div class="form-group {% if field.errors %}has-error{% endif %}">
+  {{ field.label(class_="control-label") }}
+
+  {% if disabled %}
+    {{ field(disabled=True, class_=classes) }}
+  {% else %}
+    {{ field(class_=classes) }}
+  {% endif %}
+
+  {% for error in field.errors %}
+  <span class="help-block">{{ error }}</span>
+  {% endfor %}
+</div>
+{% endmacro %}

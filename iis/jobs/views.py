@@ -26,7 +26,7 @@ def search():
 @jobs.route("/upload", methods=["GET", "POST"])
 @flask_user.login_required
 def upload():
-    form = forms.CreateForm(flask.request.form)
+    form = forms.JobForm(flask.request.form)
     form.user_id.data = current_user.get_id()
     if flask.request.method == "POST" and form.validate():
         definition = models.PipelineDefinition()
@@ -45,10 +45,33 @@ def upload():
     return flask.render_template("jobs/upload.html", form=form)
 
 
-@jobs.route("/<int:job_id>")
+@jobs.route("/<int:job_id>", methods=["GET", "POST"])
 def detail(job_id):
     job = models.PipelineDefinition.query.get(job_id)
     if job is None:
         return flask.abort(404)
 
-    return flask.render_template("jobs/detail.html")
+    if flask.request.method == "POST":
+        if current_user != job.user:
+            return flask.redirect(flask.url_for("jobs.detail", job_id=job_id))
+
+        form = forms.JobForm(flask.request.form, id=job.id)
+        form.user_id.data = current_user.get_id()
+        if form.validate():
+            form.populate_obj(job)
+            db.session.add(job)
+            db.session.commit()
+            flask.flash('The job "' + job.name + '" was successfully updated')
+            return flask.redirect(flask.url_for("jobs.detail", job_id=job_id))
+
+        return flask.render_template("jobs/detail.html", form=form,
+                                     disabled=False)
+
+    if flask.request.method == "GET":
+        form = forms.JobForm(obj=job)
+        disabled = True
+        if current_user == job.user:
+            disabled = False
+
+        return flask.render_template("jobs/detail.html", form=form,
+                                     disabled=disabled)

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Job -- {{ form.name.data }}{% endblock title %}
+{% block content %}
+<form action="#" method="POST">
+  {{ macros.with_errors(form.name, disabled=disabled, classes="form-control") }}
+  {{ macros.with_errors(form.description, disabled=disabled, classes="form-control") }}
+  {{ macros.with_errors(form.definition, disabled=disabled, classes="form-control") }}
+  {{ macros.with_errors(form.public, disabled=disabled) }}
+  {{ form.csrf_token }}
+
+  {% if not disabled %}
+    <button type="submit">Submit</button>
+  {% endif %}
+</form>
+{% endblock content %}
