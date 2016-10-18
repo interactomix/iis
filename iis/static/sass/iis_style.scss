@@ -60,3 +60,19 @@ a > .panel-heading {
     background-color: #eeeeee;
   } 
 }
+
+.alert.message {
+  @extend .alert-info;
+}
+
+.alert.error {
+  @extend .alert-danger;
+}
+
+.alert.success {
+  @extend .alert-success;
+}
+
+.alert.warning {
+  @extend .alert-warning;
+}
