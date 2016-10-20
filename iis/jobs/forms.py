@@ -19,6 +19,11 @@ class SearchForm(flask_wtf.Form):
         validators=[validators.Optional()],
         default=""
     )
+    search_description = wtforms.fields.BooleanField(
+        default=False,
+        description=("Descriptions of jobs will be searched if this option " +
+                     "is checked.")
+    )
 
 
 class JobForm(flask_wtf.Form):

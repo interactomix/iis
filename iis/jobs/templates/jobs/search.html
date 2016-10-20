@@ -3,36 +3,35 @@
 {% block title %}Search existing pipeline definitions{% endblock title %} 
 
 {% block content %}
-<form class="form-inline" method="GET" action="#">
-  <div class="form-group">
-    {{ form.search_term.label }}
-    {{ form.search_term }}
-    {% for error in form.search_term.errors %}
-    <span class="help-block">{{ error }}</span>
-    {% endfor %}
-  </div>
-  <button type="submit">Search</button>
-</form>
 
-<section class="iis-search-result">
-  {% if defs.count() > 0 %}
-  {% for def in defs %}
-  <div class="panel panel-default">
-    <a href="{{ url_for('jobs.detail', job_id=def.id) }}">
-      <div class="panel-heading">
-        <span class="name">{{ def.name }}</span>
+<div class="row">
+  <main class="iis-search-result col-md-8">
+    {% if defs.count() > 0 %}
+    {% for def in defs %}
+    <div class="panel panel-default">
+      <a href="{{ url_for('jobs.detail', job_id=def.id) }}">
+        <div class="panel-heading">
+          <span class="name">{{ def.name }}</span>
+        </div>
+      </a>
+      <div class="panel-body">
+        <span class="description">{{ def.description }}</span>
+        <span class="author">{{ def.user.username }}</span>
       </div>
-    </a>
-    <div class="panel-body">
-      <span class="description">{{ def.description }}</span>
-      <span class="author">{{ def.user.username }}</span>
     </div>
-  </div>
-  {% endfor %}
-  {% else %}
-  <p class="iis-empty-result">
-  No pipeline definitions matching your search term were found.
-  </p>
-  {% endif %}
-</section>
+    {% endfor %}
+    {% else %}
+    <p class="iis-empty-result">
+    No pipeline definitions matching your search term were found.
+    </p>
+    {% endif %}
+  </main>
+  <aside class="col-md-4 panel panel-default">
+    <form class="panel-body" method="GET" action="#">
+      {{ macros.with_errors(form.search_term, classes="form-control") }}
+      {{ macros.with_errors(form.search_description) }}
+      <button type="submit">Search</button>
+    </form>
+  </aside>
+</div>
 {% endblock content %}

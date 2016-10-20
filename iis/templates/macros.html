@@ -5,7 +5,12 @@
   {% if disabled %}
     {{ field(disabled=True, class_=classes) }}
   {% else %}
+    {% if field.description %}
+    {{ field(class_=classes, title=field.description) }}
+    <div class="help-block">{{ field.description|e }}</div>
+    {% else %}
     {{ field(class_=classes) }}
+    {% endif %}
   {% endif %}
 
   {% for error in field.errors %}

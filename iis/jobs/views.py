@@ -2,6 +2,7 @@ import flask
 import flask_user
 from flask_login import current_user
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import or_
 
 from . import jobs, models, forms
 from ..extensions import csrf, db
@@ -12,11 +13,22 @@ from ..extensions import csrf, db
 def search():
     form = forms.SearchForm(flask.request.args, csrf_enabled=False)
     if form.validate():
-        defs = models.PipelineDefinition.query.filter(
-            models.PipelineDefinition.name.like(
-                "%" + form.search_term.data + "%"
+        if form.search_description.data:
+            defs = models.PipelineDefinition.query.filter(or_(
+                models.PipelineDefinition.name.like(
+                    "%" + form.search_term.data + "%",
+                ),
+                models.PipelineDefinition.description.like(
+                    "%" + form.search_term.data + "%"
+                )
+            ))
+        else:
+            defs = models.PipelineDefinition.query.filter(
+                models.PipelineDefinition.name.like(
+                    "%" + form.search_term.data + "%",
+                ),
             )
-        )
+
     else:
         defs = models.PipelineDefinition.query.limit(10)
 
