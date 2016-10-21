@@ -8,6 +8,17 @@ from . import jobs, models, forms
 from ..extensions import csrf, db
 
 
+@jobs.route("/create", methods=["GET", "POST"])
+@flask_user.login_required
+def create():
+    if flask.request.method == "GET":
+        return flask.render_template("jobs/create_initial.html",
+                                     form=forms.DataTypeForm())
+
+    else:
+        return flask.abort(501)
+
+
 @csrf.exempt
 @jobs.route("/", methods=["GET"])
 def search():

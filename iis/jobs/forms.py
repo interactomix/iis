@@ -60,3 +60,21 @@ class JobForm(flask_wtf.Form):
             return False
         else:
             return True
+
+
+class CreateForm(flask_wtf.Form):
+    so_far = wtforms.fields.StringField(widget=wtforms.widgets.HiddenInput)
+    next_process = wtforms.fields.SelectField()
+
+
+class DataTypeForm(flask_wtf.Form):
+    data_type = wtforms.fields.RadioField(choices=[
+        ("structure", "Structure"),
+        ("sequence", "Sequence")
+    ])
+    quantity = wtforms.fields.IntegerField(
+        description=("Some Interactomix processes require multiple inputs. " +
+                     "The number provided here will inform the choice of " +
+                     "available processes.")
+
+    )

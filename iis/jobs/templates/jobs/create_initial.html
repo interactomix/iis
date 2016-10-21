@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Interactively create a pipeline definition{% endblock title %}
+
+{% block content %}
+<form method="POST" action="#">
+  <p class="help-text">
+  In order to create a valid pipeline definition you need to define the type
+  and quantity of data that you have available.
+  </p>
+  {{ macros.with_errors(form.data_type) }}
+  {{ macros.with_errors(form.quantity, classes="form-control") }}
+  {{ form.csrf_token }}
+  <button type="submit">Submit</button>
+</form>
+{% endblock content %}
