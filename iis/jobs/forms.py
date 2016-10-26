@@ -63,7 +63,6 @@ class JobForm(flask_wtf.Form):
 
 
 class CreateForm(flask_wtf.Form):
-    so_far = wtforms.fields.StringField(widget=wtforms.widgets.HiddenInput)
     next_process = wtforms.fields.SelectField()
 
 
@@ -76,5 +75,4 @@ class DataTypeForm(flask_wtf.Form):
         description=("Some Interactomix processes require multiple inputs. " +
                      "The number provided here will inform the choice of " +
                      "available processes.")
-
     )

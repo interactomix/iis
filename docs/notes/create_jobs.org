@@ -1,0 +1,76 @@
+* Create Job
+This file is a collection of notes on the process of creating a job
+interactively.
+
+** Definition json format
+What follows is a schema definition for the definition json.  It is probably
+incomplete, but it should give a rough idea.
+
+#+BEGIN_SRC js 
+  {
+      "$schema": "http://json-schema.org/schema#",
+      "id": "http://iis.interactomix/schemas/job_definition.json",
+      "type": "object",
+      "properties": {
+          "input": {
+              "type": "object",
+              "properties": {
+                  "quantity": {"type": "number"},
+                  "type": {"type": "string", "enum": ["structure", "sequence"]}
+              }
+          },
+          "processes": {
+              "type": "array",
+              "items": {
+                  "type": "object",
+                  "properties": {
+                      "id": {"type", "string"}
+                  } 
+              }
+          }
+      }
+  }
+#+END_SRC
+
+** View function control flow
+#+BEGIN_SRC python
+  import db
+  import method
+  import form
+  import flash
+
+  def view():
+      if method == "GET":
+          if db.empty:
+              return form.initial
+          else:
+              # Main form is informed by current progress
+              return form.main(db.progress)
+
+      else:
+          if form.initial:
+              if db.empty:
+                  db.progress = form.initial
+                  return form.main(db.progress)
+              else:
+                  flash("Job definition in progress!")
+                  return form.main(db.progress)
+
+          else:
+              if db.empty:
+                  flash("No Job definition in progress!")
+                  return form.initial
+              else:
+                  return form.main(db.progress)
+#+END_SRC
+
+** View Test cases
++ On GET with empty database, view should return the initial form.
++ On GET with progress in db, view should resume.
++ On POST with initial form and empty db, should create entry in db
+  and return main form.
++ ON POST with initial form and entry in db, should flash error and redirect to 
+  resume.
++ On POST with main form and empty db, should flash error and redircet
+  to initial form.
++ On POST with main form and entry in db, update db and return main form. 

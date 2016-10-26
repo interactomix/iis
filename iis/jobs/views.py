@@ -1,22 +1,88 @@
+import json
+
 import flask
 import flask_user
 from flask_login import current_user
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import or_
 
-from . import jobs, models, forms
+from . import jobs, models, forms, utils
 from ..extensions import csrf, db
 
 
 @jobs.route("/create", methods=["GET", "POST"])
 @flask_user.login_required
 def create():
+    progress_query = models.CreateJobProgress.query.filter_by(
+        user=current_user
+    )
     if flask.request.method == "GET":
-        return flask.render_template("jobs/create_initial.html",
-                                     form=forms.DataTypeForm())
+        if not progress_query.count():
+            return flask.render_template("jobs/create_initial.html",
+                                         form=forms.DataTypeForm())
+        else:
+            progress = progress_query.one()
+            form = forms.CreateForm()
+            form.next_process.choices = utils.get_choices(
+                json.loads(progress.progress)
+            )
+            return flask.render_template("jobs/create.html", form=form)
 
     else:
-        return flask.abort(501)
+        if "data_type" in flask.request.form:
+            form = forms.DataTypeForm(flask.request.form)
+            if not progress_query.count():
+                if not form.validate():
+                    return flask.render_template("jobs/create_initial.html",
+                                                 form=form)
+                else:
+                    so_far = dict(
+                        input={"quantity": form.quantity.data,
+                               "type": form.data_type.data},
+                        processes=[]
+                    )
+                    progress = models.CreateJobProgress()
+                    progress.user = current_user
+                    progress.progress = json.dumps(so_far)
+                    db.session.add(progress)
+                    db.session.commit()
+                    main_form = forms.CreateForm()
+                    main_form.next_process.choices = utils.get_choices(so_far)
+                    return flask.render_template("jobs/create.html",
+                                                 form=main_form)
+            else:
+                # This shouldn't happen!  Flash an error and redirect to
+                # itself.
+                flask.flash("You have unsaved progress in the database. " +
+                            "You can continue with that, or explicitly reset "
+                            "it.")
+                return flask.redirect(flask.url_for("jobs.create"))
+                
+        else:
+            if not progress_query.count():
+                # This shouldn't happen! Flash an error and redirect
+                flask.flash("You do not have any progress in the database. " +
+                            "You must start the job creation process from "
+                            "scratch!")
+                return flask.redirect(flask.url_for("jobs.create"))
+            else:
+                progress = progress_query.one()
+                so_far = json.loads(progress.progress)
+                form = forms.CreateForm(flask.request.form)
+                form.next_process.choices = utils.get_choices(so_far)
+                if form.validate():
+                    so_far["processes"].append({
+                        "type": form.next_process.data
+                    })
+                    progress.progress = json.dumps(so_far)
+                    db.session.add(progress)
+                    db.session.commit()
+                    main_form = forms.CreateForm()
+                    main_form.next_process.choices = utils.get_choices(so_far)
+                    return flask.render_template("jobs/create.html",
+                                                 form=main_form)
+                else:
+                    return flask.render_template("jobs/create.html", form=form)
 
 
 @csrf.exempt

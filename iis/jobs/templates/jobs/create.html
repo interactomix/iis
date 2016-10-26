@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Interactively create a pipeline definition.{% endblock title %}
+
+{% block content %}
+<form method="POST" action="#">
+  {{ macros.with_errors(form.next_process) }}
+  {{ form.so_far }}
+  {{ form.csrf_token }}
+  <button type="submit">Submit</button>
+</form>
+{% endblock content %}
