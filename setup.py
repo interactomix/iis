@@ -16,7 +16,9 @@ setup(
         "Flask-WTF>=0.12,<0.13.0",
         "Flask-Migrate>=2.0.0,<3.0.0",
         "Flask-Testing>=0.6.1,<0.7.0",
-        "daemonize>=2.4.7,<3.0.0"
+        "daemonize>=2.4.7,<3.0.0",
+        "Flask-Assets>=0.12,<0.13",
+        "webassets-browserify>=1.1.0,<2.0.0"
     ],
     extras_require={
         'dev': [

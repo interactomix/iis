@@ -28,6 +28,11 @@ def create_app(config: object) -> Flask:
     from .extensions import csrf
     csrf.init_app(app)
 
+    from .extensions import assets
+    from iis import assets as assets_bundles
+    assets.init_app(app)
+    assets.from_module(assets_bundles)
+
     # Call app.logger to prevent it from clobbering configuration
     app.logger
     logging.config.dictConfig(app.config["LOGGING"])

@@ -7,9 +7,13 @@
     "doc": "docs"
   },
   "dependencies": {
-    "bower": "^1.7.9"
+    "bower": "^1.7.9",
+    "graphdracula": "^1.0.3",
+    "raphael": "^2.2.6"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "browserify": "^13.1.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

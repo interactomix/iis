@@ -1,15 +1,9 @@
-CSS_MAIN = iis/static/css/iis_style.css
-SCSS_MAIN = iis/static/sass/iis_style.scss
-
-BOOTSTRAP_SASS = ./iis/static/bower_components/bootstrap-sass/assets/stylesheets/
-BOOTSTRAP_JS = ./iis/static/bower_components/bootstrap-sass/assets/javascripts/bootstrap.js
-
 INSTALLED = .installed
 
 FLASK_APP = FLASK_APP=iis/__init__.py
 IIS_FLASK_SETTINGS = IIS_FLASK_SETTINGS=../configuration/development.py
 
-run-dev : $(INSTALLED) $(CSS_MAIN)
+run-dev : $(INSTALLED)
 	vex iis /bin/sh -c \
 	  "$(IIS_FLASK_SETTINGS) \
 	  FLASK_DEBUG=1 \
@@ -24,14 +18,6 @@ test : $(INSTALLED)
 mypy : $(INSTALLED)
 	-vex iis /bin/sh -c \
 	  "mypy -s -p iis"
-
-css-watch : $(CSS_MAIN)
-	sass --scss --watch -I $(BOOTSTRAP_SASS) $(SCSS_MAIN):$(CSS_MAIN)
-
-$(CSS_MAIN) : $(SCSS_MAIN) $(BOOTSTRAP_SASS)_bootstrap.scss \
-	      $(BOOTSTRAP_SASS)_bootstrap-sprockets.scss
-	-mkdir -p ./iis/static/css
-	sass --scss -I $(BOOTSTRAP_SASS) $(SCSS_MAIN):$(CSS_MAIN)
 
 install: $(INSTALLED)
 

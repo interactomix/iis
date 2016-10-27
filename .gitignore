@@ -95,3 +95,4 @@ iis/static/js
 components
 node_modules/
 iis/static/bower_components/
+iis/static/gen/
