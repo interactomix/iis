@@ -18,8 +18,12 @@ scss = Bundle(
     output='gen/iis_style.css'
 )
 
+browserify_filter = Browserify(
+    binary="node_modules/browserify/bin/cmd.js"
+)
+
 graph_js = Bundle(
     'js/graph.js',
-    filters=Browserify,
+    filters=browserify_filter,
     output='gen/graph.js'
 )

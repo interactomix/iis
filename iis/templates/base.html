@@ -12,7 +12,9 @@
     {%- endblock metas %}
 
     {%- block styles %}
-    <link rel="stylesheet" href="{{url_for('static', filename='css/iis_style.css')}}">
+    {% assets "scss" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets %}
     {%- endblock styles %}
     {%- endblock head %}
   </head>
@@ -75,17 +77,9 @@
     {% endblock content %}
     </main>
     {% block scripts %}
-    <script
-      src="{{ url_for(
-          'static', 
-          filename=('bower_components/bootstrap-sass/assets/' +
-                    'javascript/bootstrap.js'))}}">
-    </script>
-    <script
-      src="{{ url_for(
-          'static', 
-	  filename='bower_components/jquery/dist/jquery.js')}}">
-    </script>
+    {% assets "static_js" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
     {% endblock scripts %}
     {% endblock body %}
   </body>
