@@ -75,8 +75,17 @@
     {% endblock content %}
     </main>
     {% block scripts %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.js')}}"></script>
+    <script
+      src="{{ url_for(
+          'static', 
+          filename=('bower_components/bootstrap-sass/assets/' +
+                    'javascript/bootstrap.js'))}}">
+    </script>
+    <script
+      src="{{ url_for(
+          'static', 
+	  filename='bower_components/jquery/dist/jquery.js')}}">
+    </script>
     {% endblock scripts %}
     {% endblock body %}
   </body>

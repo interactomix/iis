@@ -93,3 +93,5 @@ iis/static/js
 .installed
 .sass-cache
 components
+node_modules/
+iis/static/bower_components/
