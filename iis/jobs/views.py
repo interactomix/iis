@@ -8,6 +8,11 @@ from . import jobs, models, forms
 from ..extensions import csrf, db
 
 
+@jobs.route("/create", methods=["GET"])
+def create():
+    return flask.render_template("jobs/create_graph.html")
+
+
 @csrf.exempt
 @jobs.route("/", methods=["GET"])
 def search():

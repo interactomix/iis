@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-8" id="diagram"></div>
+  <div class="col-md-4" id="control-bar">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Controls
+      </div>
+      <div class="panel-body">
+        <button id="iis_add_process" class="btn btn-default">
+          Add Process
+        </button>
+        <button id="iis_add_pipe" class="btn btn-default">
+          Add Pipe
+        </button> 
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+{% block scripts %}
+{{ super() }}
+
+{% assets "graph_js" %}
+<script src="{{ ASSET_URL }}">
+</script>
+{% endassets %}
+{% endblock scripts %}

@@ -89,7 +89,6 @@ ENV/
 app.db
 
 iis/static/css
-iis/static/js
 .installed
 .sass-cache
 components
