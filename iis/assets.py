@@ -25,5 +25,6 @@ browserify_filter = Browserify(
 graph_js = Bundle(
     'js/graph.js',
     filters=browserify_filter,
-    output='gen/graph.js'
+    output='gen/graph.js',
+    depends="js/**/*.js"
 )

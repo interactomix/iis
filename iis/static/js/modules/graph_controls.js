@@ -37,7 +37,27 @@
     })
   } 
 
+  function AddProcess(button, svg, add_node) {
+    this.detach = function() {
+      button.off("click.main_handler")
+    }
+
+    button.on("click.main_handler", function() {
+      var canvas = svg()
+      canvas.on("click.add_process", function(e) {
+        var parentOffset = $(this).parent().offset()
+        var relX = e.pageX - parentOffset.left
+        var relY = e.pageY - parentOffset.top
+
+        add_node(relX, relY)
+
+        canvas.off("click.add_process")
+      })
+    })
+  }
+
   module.exports = {
-    AddPipe: AddPipe
+    AddPipe: AddPipe,
+    AddProcess: AddProcess
   }
 }())

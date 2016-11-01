@@ -40,7 +40,10 @@ clean-components :
 	-rm -rf ./node_modules
 	-rm -rf ./iis/static/bower_components
 
-clean-all : clean clean-components
+clean-assets:
+	-rm -rf ./iis/static/gen
+
+clean-all : clean clean-components clean-assets
 
 migrate : 
 	vex iis /bin/sh -c \
