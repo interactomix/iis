@@ -42,8 +42,9 @@
       button.off("click.main_handler")
     }
 
+    var canvas = svg()
     button.on("click.main_handler", function() {
-      var canvas = svg()
+      canvas.css("cursor", "pointer")
       canvas.on("click.add_process", function(e) {
         var parentOffset = $(this).parent().offset()
         var relX = e.pageX - parentOffset.left
@@ -52,8 +53,11 @@
         add_node(relX, relY)
 
         canvas.off("click.add_process")
+        canvas.css("cursor", "default")
       })
     })
+
+
   }
 
   module.exports = {
