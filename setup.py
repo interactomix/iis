@@ -18,7 +18,8 @@ setup(
         "Flask-Testing>=0.6.1,<0.7.0",
         "daemonize>=2.4.7,<3.0.0",
         "Flask-Assets>=0.12,<0.13",
-        "webassets-browserify>=1.1.0,<2.0.0"
+        "webassets-browserify>=1.1.0,<2.0.0",
+        "Flask-RESTful>=0.3.5,<0.4.0"
     ],
     extras_require={
         'dev': [
