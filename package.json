@@ -10,7 +10,8 @@
     "bower": "^1.7.9",
     "browserify": "^13.1.1",
     "browserify-shim": "^3.8.12",
-    "jointjs": "^1.0.2"
+    "jointjs": "^1.0.2",
+    "lodash": "^4.16.6"
   },
   "devDependencies": {},
   "scripts": {
