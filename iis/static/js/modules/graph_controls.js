@@ -44,7 +44,7 @@
 
     var canvas = svg()
     button.on("click.main_handler", function() {
-      canvas.css("cursor", "pointer")
+      canvas.addClass("clickable")
       canvas.on("click.add_process", function(e) {
         var parentOffset = $(this).parent().offset()
         var relX = e.pageX - parentOffset.left
@@ -53,7 +53,7 @@
         add_node(relX, relY)
 
         canvas.off("click.add_process")
-        canvas.css("cursor", "default")
+        canvas.removeClass("clickable")
       })
     })
 

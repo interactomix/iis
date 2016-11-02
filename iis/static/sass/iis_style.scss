@@ -76,3 +76,7 @@ a > .panel-heading {
 .alert.warning {
   @extend .alert-warning;
 }
+
+#diagram svg.clickable {
+  cursor: pointer; 
+}
