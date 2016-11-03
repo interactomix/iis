@@ -1,0 +1,5 @@
+language: python
+python:
+  - "3.5"
+install: "pip install -e ."
+script: "IIS_FLASK_SETTINGS=../configuration/development.py python -m unittest"
