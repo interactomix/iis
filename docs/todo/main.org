@@ -1,0 +1,32 @@
+* /jobs/create 
+This is a list of things todo for the /jobs/create view and related
+** DONE Expand graph diagram to size of column
+   In the view expand the diagram/canvas/svg area to the 
+   size of the bootstrap grid column.
+** TODO Add visual hints when inserting pipes
+*** TODO Fade out invalid nodes after source is selected 
+*** TODO Show correct cursor when hovering over nodes
+    - Show a disabled cursor over nodes that are invalid targets.
+    - Show a pointer cursor over valid nodes.
+** TODO Prevent collisions between mutliple controls
+   When one control has been selected, other controls should either be
+   blocked from declaring event listeners, or should deregister existing 
+   event listeners before declaring their own.
+   
+*** Implementation
+    Create a lock variable.  Whenever a control wants to declare event
+    listeners on the canvas, it must first check the value of the variable.
+    If it is null, it can go ahead and set the listeners.  It must then set
+    the value of the lock to a function that will unregister all of it's event
+    handlers if called with no arguments. 
+
+    If the value of the variable is not null, the control may not immediately 
+    register event handlers.  It can choose to either do nothing, or to
+    unregister the existing handlers by calling the function and then register
+    it's own handlers.
+
+** TODO Only allow drawing pipes between valid pairs
+*** TODO /jobs/api/processes should explicitly declare pre/post sets
+    Keep all the important logic server side (DRY and all that). If each
+    process declares an explicit list of pre/post sets then the JS need not
+    guess.

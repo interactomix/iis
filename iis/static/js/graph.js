@@ -9,8 +9,6 @@
   var graph = new joint.dia.Graph
   var paper = new joint.dia.Paper({
     el: $('#diagram'),
-    width: 600,
-    height: 800,
     model: graph,
     gridSize: 1
   })
