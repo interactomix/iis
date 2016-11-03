@@ -1,4 +1,6 @@
 [![Stories in Ready](https://badge.waffle.io/interactomix/iis.png?label=ready&title=Ready)](https://waffle.io/interactomix/iis)
+[![Build Status](https://travis-ci.org/interactomix/iis.svg?branch=master)](https://travis-ci.org/interactomix/iis)
+
 # iis
 A service intending to integrate the tools that are part of Interactomix
 
