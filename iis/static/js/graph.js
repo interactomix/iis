@@ -36,6 +36,35 @@
     return $("#diagram").find("svg").first()
   }
 
+  function getNodeMouseDownHandler(node) {
+    return function(event) {
+      switch (event.which) {
+      case 1:
+        $("[model-id=" + node.id + "]").addClass("focus")
+        break
+      case 3:
+        event.preventDefault()
+        event.stopPropagation()
+        displayProcessModal(node)
+        break
+      default:
+        break
+      }
+    }
+  }
+
+  function getNodeMouseUpHandler(node) {
+    return function(event) {
+      switch(event.which) {
+      case 1:
+        $("[model-id=" + node.id + "]").removeClass("focus")
+        break
+      default:
+        break
+      }
+    }
+  }
+
   function placeNode(relX, relY) {
     var node = new joint.shapes.basic.Rect({
       position: {x: relX, y: relY},
@@ -45,6 +74,10 @@
     })
     graph.addCell(node)
     displayProcessModal(node)
+    $("[model-id=" + node.id +"]").on("mousedown.main_handler",
+                                      getNodeMouseDownHandler(node))
+    $("[model-id=" + node.id +"]").on("mouseup.main_handler",
+                                      getNodeMouseUpHandler(node))
   }
 
   function getNodes() {
@@ -58,7 +91,6 @@
     })
     graph.addCell(link)
   }
-
 
   function displayProcessModal(node) {
     api.processes.get(function (data) {
