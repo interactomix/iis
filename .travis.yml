@@ -1,12 +1,5 @@
 language: python
 python:
   - "3.5"
-install: |
-  pip install -e . && 
-  FLASK_APP=iis/__init__.py \
-  IIS_FLASK_SETTINGS=../configuration/development.py \
-  flask db init &&
-  FLASK_APP=iis/__init__.py \
-  IIS_FLASK_SETTINGS=../configuration/development.py \
-  flask db upgrade
+install: "pip install -e . && touch ./app.db"
 script: "IIS_FLASK_SETTINGS=../configuration/development.py python -m unittest"
