@@ -10,8 +10,9 @@
   var paper = new joint.dia.Paper({
     el: $('#diagram'),
     model: graph,
-    gridSize: 1
+    gridSize: 10
   })
+  paper.drawGrid()
 
   var nodes = new Map()
 
