@@ -28,7 +28,7 @@ LOGGING = {
             "level": "DEBUG",
             "formatter": "verbose",
             "class": "iis.log.LockingFileHandler",
-            "filename": "/home/max/Projects/iis/iis.log"
+            "filename": "./iis.log"
         },
     },
     "loggers": {
