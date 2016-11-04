@@ -8,7 +8,7 @@ This is a list of things todo for the /jobs/create view and related
 *** TODO Show correct cursor when hovering over nodes
     - Show a disabled cursor over nodes that are invalid targets.
     - Show a pointer cursor over valid nodes.
-** TODO Prevent collisions between mutliple controls
+** DONE Prevent collisions between mutliple controls
    When one control has been selected, other controls should either be
    blocked from declaring event listeners, or should deregister existing 
    event listeners before declaring their own.

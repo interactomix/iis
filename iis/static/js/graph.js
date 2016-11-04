@@ -15,20 +15,21 @@
   paper.drawGrid()
 
   var nodes = new Map()
+  var canvas_event_lock = {lock: null}
 
-  var add_node = new controls.AddProcess(
-    $("#iis_add_process"),
-    getSvg,
-    placeNode
-  )
+  var add_node = new controls.AddProcess({
+    button: $("#iis_add_process"),
+    svg: getSvg,
+    add_node: placeNode,
+    lock: canvas_event_lock
+  })
 
-  var add_pipe = new controls.AddPipe(
-    $("#iis_add_pipe"),
-    getNodes,
-    makePipe
-  )
-
-
+  var add_pipe = new controls.AddPipe({
+    button: $("#iis_add_pipe"),
+    lock: canvas_event_lock,
+    nodes: getNodes,
+    add_pipe: makePipe
+  })
 
 
   function getSvg() {

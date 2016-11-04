@@ -2,14 +2,18 @@
   "use strict"
   var $ = require('jquery')
 
-  function AddPipe(button, nodes, add_pipe) {
+  function AddPipe(vars) {
     this.detach = function() {
-      button.off("click.main_handler")
+      vars.button.off("click.main_handler")
     }
 
-    button.on("click.main_handler", function() {
+    vars.button.on("click.main_handler", function() {
+      if (vars.lock.lock != null) {
+        return
+      }
+      
       var source = null
-      var elements = nodes()
+      var elements = vars.nodes()
 
       elements.each(function() {
         $(this).on('click.add_pipe', sourceClickHandler)
@@ -25,36 +29,48 @@
 
       function targetClickHandler(e) {
         clearClickHandlers()
-        add_pipe(source, $(this))
+        vars.add_pipe(source, $(this))
       }
 
       function clearClickHandlers() {
         elements.each(function() {
           $(this).off('click.add_pipe')
         })
+        vars.lock.lock = null
       }
-
+      vars.lock.lock = clearClickHandlers
     })
   } 
 
-  function AddProcess(button, svg, add_node) {
+  function AddProcess(vars) {
     this.detach = function() {
-      button.off("click.main_handler")
+      vars.button.off("click.main_handler")
     }
 
-    var canvas = svg()
-    button.on("click.main_handler", function() {
+    var canvas = vars.svg()
+    vars.button.on("click.main_handler", function() {
+      if (vars.lock.lock != null) {
+        return
+      }
+
       canvas.addClass("clickable")
       canvas.on("click.add_process", function(e) {
         var parentOffset = $(this).parent().offset()
         var relX = e.pageX - parentOffset.left
         var relY = e.pageY - parentOffset.top
 
-        add_node(relX, relY)
+        vars.add_node(relX, relY)
 
-        canvas.off("click.add_process")
+        clearClickHandlers()
         canvas.removeClass("clickable")
       })
+
+      function clearClickHandlers() {
+        canvas.off("click.add_process")
+        vars.lock.lock = null
+      }
+
+      vars.lock.lock = clearClickHandlers
     })
 
 
