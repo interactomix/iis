@@ -12,6 +12,7 @@
         return
       }
 
+      $("body").addClass("understate")
       vars.button.addClass("active")
       
       var source = null
@@ -33,6 +34,7 @@
         clearClickHandlers()
         vars.lock.lock = null
         vars.button.removeClass("active")
+        $("body").removeClass("understate")
         vars.add_pipe(source, $(this))
       }
 
