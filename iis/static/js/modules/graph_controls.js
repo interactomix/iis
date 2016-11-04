@@ -11,6 +11,8 @@
       if (vars.lock.lock != null) {
         return
       }
+
+      vars.button.addClass("active")
       
       var source = null
       var elements = vars.nodes()
@@ -29,6 +31,8 @@
 
       function targetClickHandler(e) {
         clearClickHandlers()
+        vars.lock.lock = null
+        vars.button.removeClass("active")
         vars.add_pipe(source, $(this))
       }
 
@@ -36,7 +40,6 @@
         elements.each(function() {
           $(this).off('click.add_pipe')
         })
-        vars.lock.lock = null
       }
       vars.lock.lock = clearClickHandlers
     })
@@ -52,6 +55,7 @@
       if (vars.lock.lock != null) {
         return
       }
+      vars.button.addClass("active")
 
       canvas.addClass("clickable")
       canvas.on("click.add_process", function(e) {
@@ -62,6 +66,7 @@
         vars.add_node(relX, relY)
 
         clearClickHandlers()
+        vars.button.removeClass("active")
         canvas.removeClass("clickable")
       })
 
