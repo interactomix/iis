@@ -97,13 +97,6 @@ a > .panel-heading {
   }
 }
 
-body.understate {
-  *:not(.emphazise) {
-    opacity: 0.9;
-  }
-}
-
-* {
-  opacity: 1;
-  transition: opacity 0.5s ease-in-out;
+svg .disabled {
+  cursor: not-allowed !important;
 }

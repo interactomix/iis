@@ -27,8 +27,11 @@
   var add_pipe = new controls.AddPipe({
     button: $("#iis_add_pipe"),
     lock: canvas_event_lock,
-    nodes: getNodes,
-    add_pipe: makePipe
+    node_elements: getNodes,
+    nodes: nodes,
+    add_pipe: makePipe,
+    processes: api.processes,
+    paper: paper
   })
 
 

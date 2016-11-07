@@ -3,9 +3,10 @@ This is a list of things todo for the /jobs/create view and related
 ** DONE Expand graph diagram to size of column
    In the view expand the diagram/canvas/svg area to the 
    size of the bootstrap grid column.
-** TODO Add visual hints when inserting pipes
-*** TODO Fade out invalid nodes after source is selected 
-*** TODO Show correct cursor when hovering over nodes
+** DONE Add visual hints when inserting pipes
+*** DONE Fade out invalid nodes after source is selected 
+    Valid nodes are highlighted.  Invalid ones not.
+*** DONE Show correct cursor when hovering over nodes
     - Show a disabled cursor over nodes that are invalid targets.
     - Show a pointer cursor over valid nodes.
 ** DONE Prevent collisions between mutliple controls
@@ -25,8 +26,8 @@ This is a list of things todo for the /jobs/create view and related
     unregister the existing handlers by calling the function and then register
     it's own handlers.
 
-** TODO Only allow drawing pipes between valid pairs
-*** TODO /jobs/api/processes should explicitly declare pre/post sets
+** DONE Only allow drawing pipes between valid pairs
+*** DONE /jobs/api/processes should explicitly declare pre/post sets
     Keep all the important logic server side (DRY and all that). If each
     process declares an explicit list of pre/post sets then the JS need not
     guess.

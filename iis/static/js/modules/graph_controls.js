@@ -1,6 +1,7 @@
 ;(function () {
   "use strict"
-  var $ = require('jquery')
+  var $ = require("jquery")
+  var _ = require("lodash")
 
   function AddPipe(vars) {
     this.detach = function() {
@@ -12,29 +13,59 @@
         return
       }
 
-      $("body").addClass("understate")
       vars.button.addClass("active")
       
       var source = null
-      var elements = vars.nodes()
+      var elements = vars.node_elements()
 
       elements.each(function() {
-        $(this).on('click.add_pipe', sourceClickHandler)
+        var node = vars.nodes.get($(this).attr("model-id")).node
+        node.findView(vars.paper).highlight()
+        $(this).on("click.add_pipe", sourceClickHandler)
+        $(this).on("mousedown.mask_mousedown_event",
+                   function(e) {e.stopPropagation()})
       })
 
       function sourceClickHandler(e) {
-        source = $(this)
-        clearClickHandlers()
         elements.each(function() {
-          $(this).on('click.add_pipe', targetClickHandler)
+          vars.nodes.get($(this).attr("model-id")).node
+            .findView(vars.paper).unhighlight()
         })
+        source = $(this)
+        var source_process = vars.nodes.get($(this).attr("model-id")).process
+        vars.processes.get(function(data) {
+          var source_postset = _.find(
+            data.processes,
+            {"id": source_process}
+          ).postset
+          console.log(source_postset)
+          elements.each(function() {
+            if(_.includes(
+              source_postset,
+              vars.nodes.get($(this).attr("model-id")).process
+            )) {
+              $(this).on('click.add_pipe', targetClickHandler)
+
+              vars.nodes.get($(this).attr("model-id")).node
+                .findView(vars.paper).highlight()
+            } else {
+              $(this).addClass("disabled")
+            }
+          })
+        })
+        clearClickHandlers()
       }
 
       function targetClickHandler(e) {
         clearClickHandlers()
         vars.lock.lock = null
         vars.button.removeClass("active")
-        $("body").removeClass("understate")
+        elements.each(function() {
+          vars.nodes.get($(this).attr("model-id")).node
+            .findView(vars.paper).unhighlight()
+          $(this).off("mousedown.mask_mousedown_event")
+          $(this).removeClass("disabled")
+        })
         vars.add_pipe(source, $(this))
       }
 
