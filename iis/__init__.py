@@ -31,6 +31,9 @@ def create_app(config: object) -> Flask:
     from .extensions import assets
     from iis import assets as assets_bundles
     assets.init_app(app)
+    with app.app_context():
+        assets.load_path.append("/home/max/Projects/iis/node_modules/")
+        assets.load_path.append(assets.directory)
     assets.from_module(assets_bundles)
 
     # Call app.logger to prevent it from clobbering configuration

@@ -1,4 +1,10 @@
 {% extends "base.html" %}
+{% block head %}
+{{ super() }}
+{% assets "jointjs_css" %}
+<link rel="stylesheet" href="{{ ASSET_URL }}">
+{% endassets %}
+{% endblock %}
 
 {% block content %}
 <div class="row">

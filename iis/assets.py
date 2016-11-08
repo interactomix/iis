@@ -2,6 +2,7 @@ from flask_assets import Bundle
 from webassets.filter import get_filter
 from webassets_browserify import Browserify
 
+
 static_js = Bundle(
     'bower_components/jquery/dist/jquery.js',
     'bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
@@ -16,6 +17,11 @@ scss = Bundle(
     'sass/iis_style.scss',
     filters=scss_filter,
     output='gen/iis_style.css'
+)
+
+jointjs_css = Bundle(
+    'jointjs/dist/joint.min.css',
+    output='gen/joint.css'
 )
 
 browserify_filter = Browserify(

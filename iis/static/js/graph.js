@@ -90,7 +90,10 @@
   function makePipe(source, target) {
     var link = new joint.dia.Link({
       source: {id: source.attr("model-id")},
-      target: {id: target.attr("model-id")}
+      target: {id: target.attr("model-id")},
+      attrs: {
+        ".marker-target": {d: "M 10 0 L 0 5 L 10 10 z"}
+      }
     })
     graph.addCell(link)
   }

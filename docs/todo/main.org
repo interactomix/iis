@@ -31,3 +31,9 @@ This is a list of things todo for the /jobs/create view and related
     Keep all the important logic server side (DRY and all that). If each
     process declares an explicit list of pre/post sets then the JS need not
     guess.
+** DONE Style pipes correctly
+   Should be directed and just a simple arrow.
+** TODO Allow dragging pipes to new sources/targets
+   This is actually already allowed by the framework.  Instead I need to 
+   disallow that behaviour or restrict it to only allow moving pipes to 
+   compatible source/target combinations.
